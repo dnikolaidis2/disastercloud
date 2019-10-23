@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  apache:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/var/www/html
+    environment:
+      MYSQL_HOST: mysql-db
+      MYSQL_DATABASE: disastercloud
+      MYSQL_USER: disastercloud
+      MYSQL_PASSWORD: 9)=B=qcZ@/E:hMtR
+    networks:
+      - disastercloud
+
+  mysql-db:
+    image: mysql:8.0
+    volumes:
+      - disastercloud-db-data:/va/lib/mysql
+    environment:
+      MYSQL_DATABASE: disastercloud
+      MYSQL_USER: disastercloud
+      MYSQL_PASSWORD: 9)=B=qcZ@/E:hMtR
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - disastercloud
+networks:
+  disastercloud:
+volumes:
+  disastercloud-db-data:

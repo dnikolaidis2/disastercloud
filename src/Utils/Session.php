@@ -98,12 +98,12 @@ class Session
     {
         unset( $_SESSION[$name] );
     }
-   
+
    
     /**
     *    Destroys the current session.
     *   
-    *    @return    bool    TRUE is session has been deleted, else FALSE.
+    *    @return    bool    TRUE is session has been deleted, else FALSE. 
     **/
    
     public function destroy()

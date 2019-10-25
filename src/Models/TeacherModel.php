@@ -1,4 +1,5 @@
 <?php
+include 'Utils/Random.php';
 
 class Teacher
 {
@@ -54,7 +55,7 @@ class TeacherModel
 
     public function getTeacherByUsername($username)
     {
-    	$stmt = $this->db->prepare('SELECT * FROM Teachers WHERE username = :username LIMIT 1');
+    	$stmt = $this->db->prepare('SELECT * FROM Teachers WHERE USERNAME = :username LIMIT 1');
     	if (!$stmt->bindParam(':username', $username, PDO::PARAM_STR))
     	{
     		return null;
@@ -75,7 +76,7 @@ class TeacherModel
 
     public function getTeacherByEmail($email)
     {
-    	$stmt = $this->db->prepare('SELECT * FROM Teachers WHERE email = :email LIMIT 1');
+    	$stmt = $this->db->prepare('SELECT * FROM Teachers WHERE EMAIL = :email LIMIT 1');
     	if (!$stmt->bindParam(':email', $email, PDO::PARAM_STR))
     	{
     		return null;
@@ -91,6 +92,38 @@ class TeacherModel
         	if ($result !== false) {
         		return Teacher::loadFromQuery($result);
         	}	
+        }
+    }
+
+    public function createTeacher($name, $surname, $username, $password, $email)
+    {
+        $stmt = $this->db->prepare('INSERT INTO Teachers VALUES (:id, :name, :surname, :username, :password, :email)');
+        $stmt->bindParam(':id', $this->getNewTeacherID(), PDO::PARAM_STR);
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':surname', $surname, PDO::PARAM_STR);
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt->bindParam(':password', password_hash($password, PASSWORD_BCRYPT), PDO::PARAM_STR);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        if (!$stmt->execute())
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function getNewTeacherID()
+    {
+        while (true) {
+            $id = generateRandomString();
+
+            $stmt = $this->db->prepare('SELECT * FROM Teachers WHERE ID = :id LIMIT 1');
+            $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($result === false) {
+                return $id;
+            }
         }
     }
 }

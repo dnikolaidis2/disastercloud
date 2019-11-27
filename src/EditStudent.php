@@ -76,7 +76,7 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
 //        TODO:error
     }
     else {
-        $grade = filter_var($_POST['grade'], FILTER_SANITIZE_NUMBER_FLOAT);
+        $grade = filter_var($_POST['grade'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
         $grade = filter_var($grade, FILTER_VALIDATE_FLOAT);
         if ($grade === false) {
 //            TODO: error

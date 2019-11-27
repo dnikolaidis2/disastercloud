@@ -70,16 +70,19 @@
             <div class="col">
                 <div class="form-group">
                     <label for="mobileNumber">Mobile number</label>
-                    <input type="text" class="form-control" id="mobileNumber" value="<?=$student['mobilenumber']?>" required>
+                    <input type="text" class="form-control" name="mobilenumber" id="mobileNumber" 
+                    value="<?=$student['mobilenumber']?>" required>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label for="dateOfBirth">Date of birth</label>
-                    <input type="date" class="form-control" id="dateOfBirth" value="<?=$student['birthday']?>" required>
+                    <input type="date" class="form-control" name="birthday" id="dateOfBirth" 
+                    value="<?=$student['birthday']?>" required>
                 </div>
             </div>
         </div>
+        <input type="hidden" name="id" value="<?=$student['id']?>">
         <button class="btn btn-primary" type="submit">Save</button>
     </form>
 </div>

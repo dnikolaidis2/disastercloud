@@ -66,7 +66,7 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
         else {
-            if (strlen($mobilenumber) > 14) {
+            if (strlen($mobilenumber) !== 10 or strlen($mobilenumber) !== 14) {
 //                TODO: error
                 exit();
             }

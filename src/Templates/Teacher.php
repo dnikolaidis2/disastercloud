@@ -31,11 +31,6 @@
         #text-main {
             color: #bdc3c7;
         }
-
-        .table-row{
-            cursor:pointer;
-        }
-
     </style>
 </head>
 <body>

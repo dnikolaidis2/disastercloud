@@ -107,6 +107,44 @@ class StudentModel
         return $result;
     }
 
+    public function getStudentByMobilenumber($mobilenumber)
+    {
+        $stmt = $this->db->prepare('SELECT * FROM Students WHERE MOBILENUMBER = :mobilenumber LIMIT 1');
+        $stmt->bindParam(':mobilenumber', $mobilenumber, PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Student');
+        if (!$stmt->execute()) {
+            return null;
+        } else {
+            $result = $stmt->fetch();
+            if ($result === false) {
+                return null;
+            }
+        }
+
+        return $result;
+    }
+
+    public function updateStudentById($id, $name, $surname, $fathername, $grade, $mobilenumber, $birthday)
+    {
+        $stmt = $this->db->prepare(
+            'UPDATE Students SET NAME=:name, 
+                        SURNAME=:surname, 
+                        FATHERNAME=:fathername,
+                        GRADE=:grade,
+                        MOBILENUMBER=:mobilenumber,
+                        BIRTHDAY=:birthday
+                        WHERE ID=:id');
+
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':surname', $surname, PDO::PARAM_STR);
+        $stmt->bindParam(':fathername', $fathername, PDO::PARAM_STR);
+        $stmt->bindParam(':grade', $grade, PDO::PARAM_STR);
+        $stmt->bindParam(':mobilenumber', $mobilenumber, PDO::PARAM_STR);
+        $stmt->bindParam(':birthday', $birthday, PDO::PARAM_STR);
+        $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+        return $stmt->execute();
+    }
+
     public function createStudent($name, $surname, $fathername, $grade, $mobilenumber, $birthday)
     {
         $stmt = $this->db->prepare(
@@ -116,9 +154,9 @@ class StudentModel
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         $stmt->bindParam(':surname', $surname, PDO::PARAM_STR);
         $stmt->bindParam(':fathername', $fathername, PDO::PARAM_STR);
-        $stmt->bindParam(':$grade', $grade, PDO::PARAM_STR);
-        $stmt->bindParam(':$mobilenumber', $mobilenumber, PDO::PARAM_STR);
-        $stmt->bindParam(':$birthday', $birthday, PDO::PARAM_STR);
+        $stmt->bindParam(':grade', $grade, PDO::PARAM_STR);
+        $stmt->bindParam(':mobilenumber', $mobilenumber, PDO::PARAM_STR);
+        $stmt->bindParam(':birthday', $birthday, PDO::PARAM_STR);
         if (!$stmt->execute()) {
             return false;
         }

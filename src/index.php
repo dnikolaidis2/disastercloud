@@ -69,6 +69,7 @@ function login()
 
     $teacherModel = new TeacherModel($pdo);
     $teacher = $teacherModel->getTeacherByUsername($username);
+    // TODO: check if this needs to change from empty to isset
     if (!empty($teacher)) {
         if (password_verify($password, $teacher->password)) {
             global $session;

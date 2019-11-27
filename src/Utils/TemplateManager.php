@@ -1,86 +1,82 @@
 <?php
 
-	class TemplateManager
-	{
-		
-		private $engine;
-		private static $instance;
+class TemplateManager
+{
 
-		private function __construct() {}
+    private $engine;
+    private static $instance;
 
-		public static function getInstance(League\Plates\Engine $templates = null)
-		{
-			if ( !isset(self::$instance))
-			{
-				self::$instance = new self;
-				self::$instance->setEngine($templates);
-			}
+    private function __construct()
+    {
+    }
 
-			return self::$instance;
-		}
+    public static function getInstance(League\Plates\Engine $templates = null)
+    {
+        if (!isset(self::$instance)) {
+            self::$instance = new self;
+            self::$instance->setEngine($templates);
+        }
 
-		public function setEngine(League\Plates\Engine $engine)
-		{
-			$this->engine = $engine;
-		}
+        return self::$instance;
+    }
 
-		public function renderIndexLogin($error_message = null, $modal_error_message = null)
-		{
-			$data = [];
-			if ($error_message !== null) 
-			{
-				$data['login'] = ['active' => true, 'error' => true, 'message' => $error_message];
-			}
-			else
-			{
-				$data['login'] = ['active' => true, 'error' => false, 'message' => ""];
-			}
+    public function setEngine(League\Plates\Engine $engine)
+    {
+        $this->engine = $engine;
+    }
 
-			$data['signup'] = ['active' => false, 'error' => false, 'message' => ""];
+    public function renderIndexLogin($error_message = null, $modal_error_message = null)
+    {
+        $data = [];
+        if ($error_message !== null) {
+            $data['login'] = ['active' => true, 'error' => true, 'message' => $error_message];
+        } else {
+            $data['login'] = ['active' => true, 'error' => false, 'message' => ""];
+        }
 
-			if ($modal_error_message !== null) 
-			{
-				$data['modal'] = ['active' => true, 'message' => $modal_error_message];
-			}
-			else
-			{
-				$data['modal'] = ['active' => false, 'message' => ""];
-			}
+        $data['signup'] = ['active' => false, 'error' => false, 'message' => ""];
 
-			echo $this->engine->render('index', $data);
-		}
+        if ($modal_error_message !== null) {
+            $data['modal'] = ['active' => true, 'message' => $modal_error_message];
+        } else {
+            $data['modal'] = ['active' => false, 'message' => ""];
+        }
 
-		public function renderIndexSignup($error_message = null, $modal_error_message = null)
-		{
-			$data = [];
-			if ($error_message !== null) 
-			{
-				$data['signup'] = ['active' => true, 'error' => true, 'message' => $error_message];
-			}
-			else
-			{
-				$data['signup'] = ['active' => true, 'error' => false, 'message' => ""];
-			}
+        echo $this->engine->render('index', $data);
+    }
 
-			$data['login'] = ['active' => false, 'error' => false, 'message' => ""];
+    public function renderIndexSignup($error_message = null, $modal_error_message = null)
+    {
+        $data = [];
+        if ($error_message !== null) {
+            $data['signup'] = ['active' => true, 'error' => true, 'message' => $error_message];
+        } else {
+            $data['signup'] = ['active' => true, 'error' => false, 'message' => ""];
+        }
 
-			if ($modal_error_message !== null) 
-			{
-				$data['modal'] = ['active' => true, 'message' => $modal_error_message];
-			}
-			else
-			{
-				$data['modal'] = ['active' => false, 'message' => ""];
-			}
+        $data['login'] = ['active' => false, 'error' => false, 'message' => ""];
 
-			echo $this->engine->render('index', $data);
-		}
+        if ($modal_error_message !== null) {
+            $data['modal'] = ['active' => true, 'message' => $modal_error_message];
+        } else {
+            $data['modal'] = ['active' => false, 'message' => ""];
+        }
 
-		public function renderTeacher()
-		{
-			echo $this->engine->render('Teacher');
-		}
+        echo $this->engine->render('index', $data);
+    }
 
-	}
+    public function renderTeacher($students)
+    {
+        $data['students'] = $students;
+        echo $this->engine->render('Teacher', $data);
+    }
+
+    public function renderEditStudent($student)
+    {
+        $data['student'] = $student;
+        echo $this->engine->render('EditStudent', $data);
+    }
+
+}
 
 ?>

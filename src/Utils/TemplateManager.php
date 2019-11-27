@@ -82,6 +82,18 @@ class TemplateManager
         echo $this->engine->render('AddStudent');
     }
 
+    public function renderSearchStudent($students = null)
+    {
+        if ($students === null) {
+            echo $this->engine->render('SearchStudent');
+        }
+        else {
+            $data['students'] = $students;
+            echo $this->engine->render('SearchStudent', $data);
+        }
+
+    }
+
 }
 
 ?>

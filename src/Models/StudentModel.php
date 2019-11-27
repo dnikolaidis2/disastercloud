@@ -124,6 +124,40 @@ class StudentModel
         return $result;
     }
 
+    public function searchForStudent($name = null,
+                                     $surname = null,
+                                     $fathername = null,
+                                     $grade = null,
+                                     $mobilenumber = null,
+                                     $birthday = null)
+    {
+        $stmt = $this->db->prepare(
+            "SELECT * FROM Students
+                        WHERE NAME like :name 
+                        AND SURNAME like :surname 
+                        AND FATHERNAME like :fathername
+                        AND GRADE like :grade
+                        AND MOBILENUMBER like :mobilenumber
+                        AND BIRTHDAY like :birthday");
+
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':surname', $surname, PDO::PARAM_STR);
+        $stmt->bindParam(':fathername', $fathername, PDO::PARAM_STR);
+        $stmt->bindParam(':grade', $grade, PDO::PARAM_STR);
+        $stmt->bindParam(':mobilenumber', $mobilenumber, PDO::PARAM_STR);
+        $stmt->bindParam(':birthday', $birthday, PDO::PARAM_STR);
+        if (!$stmt->execute()) {
+            return null;
+        } else {
+            $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'Student');
+            if ($result === false) {
+                return null;
+            }
+        }
+
+        return $result;
+    }
+
     public function updateStudentById($id, $name, $surname, $fathername, $grade, $mobilenumber, $birthday)
     {
         $stmt = $this->db->prepare(

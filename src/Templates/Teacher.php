@@ -46,6 +46,7 @@
   </form> -->
 
 <div class="container">
+    <a class="btn btn-primary" href="/AddStudent.php" role="buttons"><i class="fas fa-plus"></i></a>
     <table id="example" class="table table-striped table-bordered table-hover">
         <thead>
         <tr>

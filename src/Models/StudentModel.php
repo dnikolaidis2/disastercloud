@@ -148,8 +148,8 @@ class StudentModel
     public function createStudent($name, $surname, $fathername, $grade, $mobilenumber, $birthday)
     {
         $stmt = $this->db->prepare(
-            'INSERT INTO Students VALUES (:id, :name, :surname, :fathername, :grade, :mobilenumber, :birthday)'
-        );
+            'INSERT INTO Students 
+                        VALUES (:id, :name, :surname, :fathername, :grade, :mobilenumber, :birthday)');
         $stmt->bindParam(':id', $this->getNewStudentID(), PDO::PARAM_STR);
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         $stmt->bindParam(':surname', $surname, PDO::PARAM_STR);
@@ -157,11 +157,15 @@ class StudentModel
         $stmt->bindParam(':grade', $grade, PDO::PARAM_STR);
         $stmt->bindParam(':mobilenumber', $mobilenumber, PDO::PARAM_STR);
         $stmt->bindParam(':birthday', $birthday, PDO::PARAM_STR);
-        if (!$stmt->execute()) {
-            return false;
-        }
+        return $stmt->execute();
+    }
 
-        return true;
+    public function deleteStudent($id)
+    {
+        $stmt = $this->db->prepare(
+            'DELETE FROM Students WHERE ID=:id');
+        $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+        return $stmt->execute();
     }
 
     private function getNewStudentID()

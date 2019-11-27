@@ -77,6 +77,11 @@ class TemplateManager
         echo $this->engine->render('EditStudent', $data);
     }
 
+    public function renderAddStudent()
+    {
+        echo $this->engine->render('AddStudent');
+    }
+
 }
 
 ?>

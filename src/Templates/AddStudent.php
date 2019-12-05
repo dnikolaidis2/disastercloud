@@ -1,91 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
 <head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
-
-    <style>
-
-        body {
-            /*background-color: #bdc3c7;*/
-        }
-
-        #main {
-            background-color: #2c3e50;
-            padding-top: 2%;
-            padding-bottom: 2%;
-        }
-
-        #text-main {
-            color: #bdc3c7;
-        }
-
-    </style>
+    <title>Add student · Disastercloud</title>
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/custom.css">
+    <script src="assets/jquery/jquery-3.3.1.min.js"></script>
+    <script src="assets/fontawesome/js/all.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/stylesheet.css"> 
 </head>
-<body>
-
-<!--
-  <form method="post" action="index.php">
-    <input type="hidden" id="action" value="logout" name="action">
-    <button type="submit" class="btn btn-primary btn-block">Logout</button>
-  </form> -->
-
-<div class="container">
-    <form action="AddStudent.php" method="post">
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="firstName">First Name</label>
-                    <input type="text" class="form-control" name="name" id="firstName" required>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="lastName">Last Name</label>
-                    <input type="text" class="form-control" name="surname" id="lastName" required>
-                </div>
-            </div>
+<body class="bg-light h-100">
+<header>
+    <div class="navbar navbar-dark bg-dark">
+        <div class="container justify-content-between">
+            <a class="navbar-brand" href="/Teacher.php">
+                <h1 class="my-0">Disastercloud</h1>
+            </a>
+            <form method="post" action="index.php" class="form-inline">
+                <input type="hidden" name="action" value="logout">
+                <label class="mr-sm-2 text-light"><?=$username?></label>
+                <button type="submit" class="btn btn-danger my-2 my-sm-0">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
         </div>
-        <div class="row">
+    </div>
+</header>
+<main class="h-100">
+    <div class="container h-100 py-4 bg-white">
+        <div class="row justify-content-center py-3">
+            <div class="col-1"></div>
             <div class="col">
-                <div class="form-group">
-                    <label for="fatherName">Father's Name</label>
-                    <input type="text" class="form-control" name="fathername" id="fatherName" required>
-                </div>
+                <h2 >Add Student</h2>
             </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="grade">Grade</label>
-                    <input type="number" step="0.01" max="10.0" min="0.0" class="form-control" name="grade" id="grade" required>
-                </div>
-            </div>
+            <div class="col"></div>
         </div>
-        <div class="row">
+        <div class="row justify-content-center">
+            <div class="col-1"></div>
             <div class="col">
-                <div class="form-group">
-                    <label for="mobileNumber">Mobile number</label>
-                    <input type="text" class="form-control" name="mobilenumber" id="mobileNumber" required>
-                </div>
+                <form action="AddStudent.php" method="post">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input type="text" class="form-control" name="name" id="firstName" placeholder="John" required>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" class="form-control" name="surname" id="lastName" placeholder="Doe" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="fatherName">Father's Name</label>
+                                <input type="text" class="form-control" name="fathername" id="fatherName" placeholder="Mark" required>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="grade">Grade</label>
+                                <input type="number" step="0.01" max="10.0" min="0.0" class="form-control" name="grade" id="grade" placeholder="7.5" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="mobileNumber">Mobile number</label>
+                                <input type="text" class="form-control" name="mobilenumber" id="mobileNumber" placeholder="6940035763" required>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="dateOfBirth">Date of birth</label>
+                                <input type="date" class="form-control" name="birthday" id="dateOfBirth" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-end mr-0">
+                        <button class="btn btn-secondary mx-1" type="reset">Clear</button>
+                        <button class="btn btn-primary" type="submit">Add</button>    
+                    </div>
+                </form>
             </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="dateOfBirth">Date of birth</label>
-                    <input type="date" class="form-control" name="birthday" id="dateOfBirth" required>
-                </div>
-            </div>
+            <div class="col-1"></div>
         </div>
-        <button class="btn btn-primary" type="submit">Add</button>
-    </form>
-</div>
+    </div>
+</main>
 </body>
 </html>

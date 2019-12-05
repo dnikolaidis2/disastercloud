@@ -16,7 +16,8 @@ $templateManager = TemplateManager::getInstance($templates);
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (empty($_GET)) {
-        $templateManager->renderSearchStudent();
+        $templateManager->renderSearchStudent($session->username);
+        exit();
     }
     else {
         $name = test_input($_GET['name']);
@@ -28,11 +29,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         $pdo = null;
         try {
-            $pdo = new PDO('mysql:host=' . $_ENV["MYSQL_HOST"] . ';dbname=' . $_ENV["MYSQL_DATABASE"], $_ENV["MYSQL_USER"], $_ENV["MYSQL_PASSWORD"], array(
+            $pdo = new PDO('mysql:host=' . $_ENV["MYSQL_HOST"] .
+                ';dbname=' . $_ENV["MYSQL_DATABASE"],
+                $_ENV["MYSQL_USER"],
+                $_ENV["MYSQL_PASSWORD"], array(
                 PDO::ATTR_PERSISTENT => true
             ));
         } catch (PDOException $e) {
-            //    TODO: Error
+            $templateManager->renderSearchStudent($session->username,
+                null,
+                null,
+                "Could not establish connection to database.");
         }
 
         $studentModel = new StudentModel($pdo);
@@ -47,10 +54,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         foreach ($students as $student) {
             array_push($student_array, $student->pack());
         }
-        $templateManager->renderSearchStudent($student_array);
+
+        $previous_data = ["name" => $name,
+            "surname" => $surname,
+            "fathername" => $fathername,
+            "grade" => $grade,
+            "mobilenumber" => $mobilenumber,
+            "birthday" => $birthday];
+        $templateManager->renderSearchStudent($session->username, $student_array, $previous_data);
     }
 }
 else {
+    $templateManager->renderSearchStudent($session->username,
+        null,
+        null,
+        "Unsupported request method.");
     exit();
 }
 

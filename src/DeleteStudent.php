@@ -14,6 +14,8 @@ if (!($session->logedin && isset($session->username))) {
 $templates = new League\Plates\Engine('Templates');
 $templateManager = TemplateManager::getInstance($templates);
 
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_POST['id'])) {
 //        TODO:error
@@ -38,7 +40,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $studentModel = new StudentModel($pdo);
     if ($studentModel->deleteStudent($id)) {
-        header("Location: Teacher.php");
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            header("Location: " . end(explode("/", $_SERVER['HTTP_REFERER'])));
+        }
+        else {
+            header("Location: Teacher.php");
+        }
         exit();
     }
     else {

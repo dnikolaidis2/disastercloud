@@ -1,81 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <script src="https://kit.fontawesome.com/8f7197f193.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
-
-    <style>
-
-        body {
-            /*background-color: #bdc3c7;*/
-        }
-
-        #main {
-            background-color: #2c3e50;
-            padding-top: 2%;
-            padding-bottom: 2%;
-        }
-
-        #text-main {
-            color: #bdc3c7;
-        }
-    </style>
+    <title>Student management · Disastercloud</title>
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/custom.css">
+    <script src="assets/jquery/jquery-3.3.1.min.js"></script>
+    <script src="assets/fontawesome/js/all.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/stylesheet.css"> 
 </head>
-<body>
-<!--
-  <form method="post" action="index.php">
-    <input type="hidden" id="action" value="logout" name="action">
-    <button type="submit" class="btn btn-primary btn-block">Logout</button>
-  </form> -->
-
-<div class="container">
-    <a class="btn btn-primary" href="/AddStudent.php" role="buttons"><i class="fas fa-plus"></i></a>
-    <table id="example" class="table table-striped table-bordered table-hover">
-        <thead>
-        <tr>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Father's Name</th>
-            <th scope="col">Grade</th>
-            <th scope="col">Mobile Number</th>
-            <th scope="col">Birthday</th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php $i = 1; ?>
-        <?php foreach ($students as $s): ?>
-            <tr class="table-row" data-path="/EditStudent.php?id=<?=$s["id"]?>">
-                <td><?=$s["name"]?></td>
-                <td><?=$s["surname"]?></td>
-                <td><?=$s["fathername"]?></td>
-                <td><?=$s["grade"]?></td>
-                <td><?=$s["mobilenumber"]?></td>
-                <td><?=$s["birthday"]?></td>
-                <td>
-                    <a class="btn btn-primary" href="/EditStudent.php?id=<?=$s["id"]?>" role="buttons"><i class="fas fa-edit"></i></a>
-                    <button type="button" class="btn btn-danger delete-btn" data-toggle="modal" data-target="#confirm-delete" data-id="<?=$s["id"]?>">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    </a>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
+<body class="bg-light">
+<header>
+    <div class="navbar navbar-dark bg-dark">
+        <div class="container justify-content-between">
+            <a class="navbar-brand" href="/Teacher.php">
+                <h1 class="my-0">Disastercloud</h1>
+            </a>
+            <form method="post" action="index.php" class="form-inline">
+                <input type="hidden" name="action" value="logout">
+                <label class="mr-sm-2 text-light"><?=$username?></label>
+                <button type="submit" class="btn btn-danger my-2 my-sm-0">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</header>
+<main>
+    <div class="container bg-white">
+        <div class="row justify-content-between px-5 py-4">
+            <div class="col">
+                <h2>Student's</h2>
+            </div>
+            <div class="col-0 mx-3">
+                <a class="btn btn-primary" href="/SearchStudent.php" role="buttons"><i class="fas fa-search"></i></a>
+                <a class="btn btn-primary" href="/AddStudent.php" role="buttons"><i class="fas fa-plus"></i></a>
+            </div>
+        </div>
+        <div class="row justify-content-between px-5">
+            <div class="col">
+                <?php if(isset($students)): ?>
+                <table id="example" class="table table-striped table-bordered table-hover text-center">
+                    <thead>
+                    <tr>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Father's Name</th>
+                        <th scope="col">Grade</th>
+                        <th scope="col">Mobile Number</th>
+                        <th scope="col">Birthday</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($students as $s): ?>
+                        <tr class="table-row" data-path="/EditStudent.php?id=<?=$s["id"]?>">
+                            <td><?=$s["name"]?></td>
+                            <td><?=$s["surname"]?></td>
+                            <td><?=$s["fathername"]?></td>
+                            <td><?=$s["grade"]?></td>
+                            <td><?=$s["mobilenumber"]?></td>
+                            <td><?=$s["birthday"]?></td>
+                            <td>
+                                <a class="btn btn-primary" href="/EditStudent.php?id=<?=$s["id"]?>" role="buttons"><i class="fas fa-edit"></i></a>
+                                <button type="button" class="btn btn-danger delete-student" data-toggle="modal" data-target="#confirm-delete" data-id="<?=$s["id"]?>">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <?php endif;?>
+            </div>
+        </div>
+    </div>
+</main>
+<a id="back-to-top" href="#" class="btn btn-dark btn-lg back-to-top" role="button"><i class="fas fa-chevron-up"></i></a>
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-label" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -98,18 +102,52 @@
     </div>
   </div>
 </div>
-
+<div class="modal" tabindex="-1" role="dialog" id="error_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Error occured</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <?php if (isset($modal_error)): ?>
+                        <?=$modal_error?>
+                    <?php endif ?>
+                </p>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
-    $('.delete-btn').on('click', function(event) {
-        $('#confirm-delete-id').val($(this).data("id"))
-    });
-</script>
-<!-- <script>
-    $(document).ready(function($) {
-        $(".table-row").click(function() {
-            window.location.assign($(this).data("path"));
+    $(document).ready(function(){
+        <?php if (isset($modal_error)): ?>
+        $("#error_modal").modal("show");
+        <?php endif ?>
+
+        $('.delete-student').on('click', function(event) {
+            $('#confirm-delete-id').val($(this).data("id"))
+        });
+
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 1) {
+                $('#back-to-top').fadeIn();
+            } else {
+                $('#back-to-top').fadeOut();
+            }
+        });
+
+        // scroll body to 0px on click
+        $('#back-to-top').click(function () {
+            $('body,html').animate({
+                scrollTop: 0
+            }, 400);
+            return false;
         });
     });
-</script> -->
+</script>
 </body>
 </html>

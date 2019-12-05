@@ -15,7 +15,7 @@ $templates = new League\Plates\Engine('Templates');
 $templateManager = TemplateManager::getInstance($templates);
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $templateManager->renderAddStudent();
+    $templateManager->renderAddStudent($session->username);
 }
 elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($_POST['name'])) {
@@ -66,7 +66,7 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
         else {
-            if (strlen($mobilenumber) !== 10 or strlen($mobilenumber) !== 14) {
+            if (strlen($mobilenumber) !== 10 and strlen($mobilenumber) !== 14) {
 //                TODO: error
                 exit();
             }

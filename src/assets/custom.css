@@ -1,0 +1,73 @@
+.bg-dark {
+	background-color: #24323d !important;
+}
+
+.bg-light {
+	background-color: #eceae6 !important;
+}
+
+.btn-primary {
+	background-color: #3e749f;
+	border-color: #4077a4;
+}
+
+.btn-primary:hover {
+	background-color: #284b67;
+	border-color: #254761;
+}
+
+.btn-primary:focus {
+	background-color: #284b67;
+	border-color: #254761;
+	box-shadow: 0 0 0 .2rem rgba(98, 184, 255, .5);
+}
+
+.btn-danger {
+	background-color: #cf414f;
+	border-color: #d04553;
+}
+
+.btn-danger:hover {
+	background-color: #a22935;
+	border-color: #992632;
+}
+
+.btn-danger:focus {
+	background-color: #a22935;
+	border-color: #992632;
+	box-shadow: 0 0 0 .2rem rgba(255, 72, 90, .5);
+}
+
+.btn-dark {
+	background-color: #24323d;
+	border-color: #273743;
+}
+
+.btn-dark:hover {
+	background-color: #1b252d;
+	border-color: #19232a;
+}
+
+.btn-dark:focus {
+	background-color: #1b252d;
+	border-color: #19232a;
+	box-shadow: 0 0 0 .2rem rgba(56, 60, 93, .5);
+}
+
+a {
+	color: #3e749f;
+}
+
+a:hover {
+	color: #284b67;
+}
+
+/*Not overriding, just making sure it stays the same*/
+.nav-link.active {
+    color: #495057;
+}
+
+.form-control:focus {
+	border-color: #80bdff;
+	box-shadow: 0 0 0 .2rem rgba(98, 184, 255, .5);
+}

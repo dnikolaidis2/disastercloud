@@ -1,0 +1,23 @@
+html, body {
+    overflow: auto;
+}
+
+.back-to-top {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    display: none;
+}
+
+.card {
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.bg-light-light {
+	background-color: #faf9f8 !important;	
+}
+
+h1 {
+	font-size: 1.25rem;
+	font-weight: bolder;
+}

@@ -183,13 +183,13 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
         "mobilenumber" => $mobilenumber,
         "birthday" => $birthday];
 
-    if ($id_error === null or
-        $name_error === null or
-        $surname_error === null or
-        $fathername_error === null or
-        $grade_error === null or
-        $mobilenumber_error === null or
-        $birthday_error === null) {
+    if ($id_error !== null or
+        $name_error !== null or
+        $surname_error !== null or
+        $fathername_error !== null or
+        $grade_error !== null or
+        $mobilenumber_error !== null or
+        $birthday_error !== null) {
         $templateManager->renderEditStudent($session->username,
             $previous_data,
             $referer,

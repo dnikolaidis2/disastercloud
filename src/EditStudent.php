@@ -209,9 +209,7 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo = new PDO('mysql:host=' . $_ENV["MYSQL_HOST"] .
             ';dbname=' . $_ENV["MYSQL_DATABASE"],
             $_ENV["MYSQL_USER"],
-            $_ENV["MYSQL_PASSWORD"], array(
-            PDO::ATTR_PERSISTENT => true
-        ));
+            $_ENV["MYSQL_PASSWORD"]);
     } catch (PDOException $e) {
         $templateManager->renderEditStudent($session->username,
             $previous_data,

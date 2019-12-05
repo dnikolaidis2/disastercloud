@@ -85,9 +85,7 @@ function login()
         $pdo = new PDO('mysql:host=' . $_ENV["MYSQL_HOST"] .
             ';dbname=' . $_ENV["MYSQL_DATABASE"],
             $_ENV["MYSQL_USER"],
-            $_ENV["MYSQL_PASSWORD"], array(
-            PDO::ATTR_PERSISTENT => true
-        ));
+            $_ENV["MYSQL_PASSWORD"]);
     } catch (PDOException $e) {
         $templateManager->renderIndexLogin($previous_data, null, null, $e->getMessage());
         exit();
@@ -199,9 +197,7 @@ function signup()
         $pdo = new PDO('mysql:host=' . $_ENV["MYSQL_HOST"] .
             ';dbname=' . $_ENV["MYSQL_DATABASE"],
             $_ENV["MYSQL_USER"],
-            $_ENV["MYSQL_PASSWORD"], array(
-            PDO::ATTR_PERSISTENT => true
-        ));
+            $_ENV["MYSQL_PASSWORD"]);
     } catch (PDOException $e) {
         $templateManager->renderIndexSignup($previous_data, null, null, null,
             null, null, $e->getMessage());

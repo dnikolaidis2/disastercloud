@@ -45,13 +45,29 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="firstName">First Name</label>
-                                <input type="text" class="form-control" name="name" id="firstName" placeholder="John" required>
+                                <input type="text" class="form-control
+                                <?php if(isset($name_error)): ?>
+                                    is-invalid
+                                <?php endif; ?>" name="name" id="firstName" placeholder="John"value="<?=$previous_data['name']?>" required>
+                                <?php if(isset($name_error)): ?>
+                                    <div class="invalid-feedback">
+                                        <?=$name_error?>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label for="lastName">Last Name</label>
-                                <input type="text" class="form-control" name="surname" id="lastName" placeholder="Doe" required>
+                                <input type="text" class="form-control
+                                <?php if(isset($surname_error)): ?>
+                                    is-invalid
+                                <?php endif; ?>" name="surname" id="lastName" placeholder="Doe" value="<?=$previous_data['surname']?>" required>
+                                <?php if(isset($surname_error)): ?>
+                                    <div class="invalid-feedback">
+                                        <?=$surname_error?>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -59,13 +75,29 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="fatherName">Father's Name</label>
-                                <input type="text" class="form-control" name="fathername" id="fatherName" placeholder="Mark" required>
+                                <input type="text" class="form-control
+                                <?php if(isset($fathername_error)): ?>
+                                    is-invalid
+                                <?php endif; ?>" name="fathername" id="fatherName" placeholder="Mark" value="<?=$previous_data['fathername']?>" required>
+                                <?php if(isset($fathername_error)): ?>
+                                    <div class="invalid-feedback">
+                                        <?=$fathername_error?>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label for="grade">Grade</label>
-                                <input type="number" step="0.01" max="10.0" min="0.0" class="form-control" name="grade" id="grade" placeholder="7.5" required>
+                                <input type="number" step="0.01" max="10.0" min="0.0" class="form-control
+                                <?php if(isset($grade_error)): ?>
+                                    is-invalid
+                                <?php endif; ?>" name="grade" id="grade" placeholder="7.5" value="<?=$previous_data['grade']?>" required>
+                                <?php if(isset($grade_error)): ?>
+                                    <div class="invalid-feedback">
+                                        <?=$grade_error?>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -73,15 +105,36 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="mobileNumber">Mobile number</label>
-                                <input type="text" class="form-control" name="mobilenumber" id="mobileNumber" placeholder="6940035763" required>
+                                <input type="text" class="form-control
+                                <?php if(isset($mobilenumber_error)): ?>
+                                    is-invalid
+                                <?php endif; ?>" name="mobilenumber" id="mobileNumber" placeholder="6940035763" value="<?=$previous_data['mobilenumber']?>" required>
+                                <?php if(isset($mobilenumber_error)): ?>
+                                    <div class="invalid-feedback">
+                                        <?=$mobilenumber_error?>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label for="dateOfBirth">Date of birth</label>
-                                <input type="date" class="form-control" name="birthday" id="dateOfBirth" required>
+                                <input type="date" class="form-control
+                                <?php if(isset($birthday_error)): ?>
+                                    is-invalid
+                                <?php endif; ?>" name="birthday" id="dateOfBirth" value="<?=$previous_data['birthday']?>" required>
+                                <?php if(isset($birthday_error)): ?>
+                                    <div class="invalid-feedback">
+                                        <?=$birthday_error?>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
+                    </div>
+                    <div class="alert alert-danger invisible" role="alert" id="form_alert">
+                        <?php if (isset($alert_error)): ?>
+                            <?=$alert_error?>
+                        <?php endif ?>
                     </div>
                     <div class="row justify-content-end mr-0">
                         <button class="btn btn-secondary mx-1" type="reset">Clear</button>
@@ -93,5 +146,35 @@
         </div>
     </div>
 </main>
+<div class="modal" tabindex="-1" role="dialog" id="error_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Error occured</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <?php if (isset($modal_error)): ?>
+                        <?=$modal_error?>
+                    <?php endif ?>
+                </p>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(window).on("load", function () {
+        <?php if (isset($modal_error)): ?>
+        $("#error_modal").modal("show");
+        <?php endif ?>
+        <?php if (isset($alert_error)): ?>
+        $("#form_alert").removeClass("invisible");
+        <?php endif ?>
+    });
+</script>
 </body>
 </html>

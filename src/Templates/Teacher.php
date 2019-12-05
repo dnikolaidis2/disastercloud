@@ -35,7 +35,9 @@
                 <h2>Student's</h2>
             </div>
             <div class="col-0 mx-3">
+                <?php if(isset($students)): ?>
                 <a class="btn btn-primary" href="/SearchStudent.php" role="buttons"><i class="fas fa-search"></i></a>
+                <?php endif; ?>
                 <a class="btn btn-primary" href="/AddStudent.php" role="buttons"><i class="fas fa-plus"></i></a>
             </div>
         </div>

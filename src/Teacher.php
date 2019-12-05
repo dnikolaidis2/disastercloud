@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     $studentModel = new StudentModel($pdo);
     $students = $studentModel->getAllStudents();
-    if ($students === null){
+    if ($students === null or empty($students)){
         $templateManager->renderTeacher($session->username, null);
         exit();
     }

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Internet input sanitizer.
+ * @param string $data input data.
+ * @return string sanitized output.
+ */
 function test_input($data)
 {
     $data = trim($data);

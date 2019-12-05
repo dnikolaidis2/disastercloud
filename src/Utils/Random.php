@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Random string generator.
+ * @param int $length of string to generate.
+ * @return string random string.
+ */
 function generateRandomString($length = 10)
 {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

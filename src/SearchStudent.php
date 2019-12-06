@@ -5,17 +5,21 @@ include 'Utils/TemplateManager.php';
 include 'Models/StudentModel.php';
 include 'Utils/Sanitizer.php';
 
+// Retrieve session if it exists. Start a new one otherwise.
 $session = Session::getInstance();
 
+// If we are NOT logged in redirect to index page.
 if (!($session->logedin && isset($session->username))) {
     header("Location: index.php");
 }
 
+// Generate a new templateEngine and manager.
 $templates = new League\Plates\Engine('Templates');
 $templateManager = TemplateManager::getInstance($templates);
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (empty($_GET)) {
+//      Display page.
         $templateManager->renderSearchStudent($session->username);
         exit();
     }

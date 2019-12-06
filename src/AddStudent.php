@@ -5,19 +5,25 @@ include 'Utils/TemplateManager.php';
 include 'Models/StudentModel.php';
 include 'Utils/Sanitizer.php';
 
+// Retrieve session if it exists. Start a new one otherwise.
 $session = Session::getInstance();
 
+// If we are NOT logged in redirect to index page.
 if (!($session->logedin && isset($session->username))) {
     header("Location: index.php");
 }
 
+// Generate a new templateEngine and manager.
 $templates = new League\Plates\Engine('Templates');
 $templateManager = TemplateManager::getInstance($templates);
 
+// Display page.
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $templateManager->renderAddStudent($session->username);
 }
 elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+// ---------------- Input validation and sanitization --------------
 
     $name = "";
     $name_error = null;
@@ -103,6 +109,7 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
         "mobilenumber" => $mobilenumber,
         "birthday" => $birthday];
 
+//  If there was an error during input validation. Output message and exit.
     if ($name_error !== null or
         $surname_error !== null or
         $fathername_error !== null or
@@ -119,6 +126,8 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $birthday_error);
         exit();
     }
+
+// ---------------- Connect to database --------------
 
     $pdo = null;
     try {
@@ -138,6 +147,8 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "Could not connect to database.");
         exit();
     }
+
+// ---------------- Add student logic --------------
 
     $studentModel = new StudentModel($pdo);
     $student = $studentModel->getStudentByMobilenumber($mobilenumber);

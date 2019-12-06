@@ -5,18 +5,21 @@ include 'Utils/TemplateManager.php';
 include 'Models/StudentModel.php';
 include 'Utils/Sanitizer.php';
 
+// Retrieve session if it exists. Start a new one otherwise.
 $session = Session::getInstance();
 
+// If we are NOT logged in redirect to index page.
 if (!($session->logedin && isset($session->username))) {
     header("Location: index.php");
 }
 
+// Generate a new templateEngine and manager.
 $templates = new League\Plates\Engine('Templates');
 $templateManager = TemplateManager::getInstance($templates);
 
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// ----------- Input validation ----------
     if (!isset($_POST['id'])) {
 //        TODO:error
         exit();
@@ -25,9 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = test_input($_POST['id']);
         if (strlen($id) != 10) {
 //            TODO: error
-//            exit();
+            exit();
         }
     }
+
+// ----------- Connect to database  ----------
 
     $pdo = null;
     try {
@@ -37,7 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_ENV["MYSQL_PASSWORD"]);
     } catch (PDOException $e) {
         //    TODO: Error
+        exit();
     }
+
+// ------------ Delete Student logic ---------
 
     $studentModel = new StudentModel($pdo);
     if ($studentModel->deleteStudent($id)) {
@@ -50,12 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
     else {
-        var_dump($pdo->errorInfo());
 //        TODO: error
+        exit();
     }
 }
 else {
-//    TODO: error
     exit();
 }
 ?>

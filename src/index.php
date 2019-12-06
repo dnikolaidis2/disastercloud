@@ -5,18 +5,22 @@ include 'Models/TeacherModel.php';
 include 'Utils/TemplateManager.php';
 include 'Utils/Sanitizer.php';
 
+// Retrieve session if it exists. Start a new one otherwise.
 $session = Session::getInstance();
 
+// If we are logged in redirect to protected area.
 if ($session->logedin && isset($session->username)) {
     header("Location: Teacher.php");
 }
 
+// Generate a new templateEngine and manager.
 $templateEngine = new League\Plates\Engine('Templates');
 $templateManager = TemplateManager::getInstance($templateEngine);
 
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $templateManager->renderIndexLogin();
-} elseif ($_SERVER["REQUEST_METHOD"] === "POST") {
+}
+elseif ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($_POST["action"])) {
         $templateManager->renderIndexLogin(null,
             null,
@@ -28,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         $action = test_input($_POST["action"]);
     }
 
+//    dispatch action to appropriate function.
     if ($action === "login") {
         login();
     } elseif ($action === "signup") {
@@ -55,6 +60,8 @@ function login()
 {
     global $templateManager;
 
+// ---------------- Input validation and sanitization --------------
+
     $username_error = null;
     $username = "";
     if (empty($_POST["username"])) {
@@ -75,10 +82,15 @@ function login()
     }
 
     $previous_data = ["username" => $username, "password" => $password];
+
+//    output and exit if any errors where found
     if ($username_error !== null or $password_error !== null) {
         $templateManager->renderIndexLogin($previous_data, $username_error, $password_error);
         exit();
     }
+
+
+// ----------- Connect to database  ----------
 
     $pdo = null;
     try {
@@ -94,6 +106,8 @@ function login()
     if ($pdo === null) {
         exit();
     }
+
+// ------------------ Action main logic ----------------
 
     $teacherModel = new TeacherModel($pdo);
     $teacher = $teacherModel->getTeacherByUsername($username);
@@ -123,6 +137,8 @@ function login()
 function signup()
 {
     global $templateManager;
+
+// ------------------ Input validation and sanitization ---------------
 
     $name = "";
     $name_error = null;
@@ -182,6 +198,7 @@ function signup()
         "password" => $password,
         ];
 
+//  If error's occurred output error's and exit.
     if ($name_error !== null or
     $surname_error !== null or
     $email_error !== null or
@@ -191,6 +208,8 @@ function signup()
             $email_error, $username_error, $password_error);
         exit();
     }
+
+// ----------- Connect to database  ----------
 
     $pdo = null;
     try {
@@ -207,6 +226,8 @@ function signup()
     if ($pdo === null) {
         exit();
     }
+
+// ------------------ Action main logic ----------------
 
     $teacherModel = new TeacherModel($pdo);
     $teacher = $teacherModel->getTeacherByUsername($username);
@@ -246,6 +267,7 @@ function signup()
     }
 }
 
+// Handle logout.
 function logout()
 {
     global $session;

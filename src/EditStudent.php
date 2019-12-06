@@ -5,16 +5,23 @@ include 'Utils/TemplateManager.php';
 include 'Models/StudentModel.php';
 include 'Utils/Sanitizer.php';
 
+// Retrieve session if it exists. Start a new one otherwise.
 $session = Session::getInstance();
 
+// If we are NOT logged in redirect to index page.
 if (!($session->logedin && isset($session->username))) {
     header("Location: index.php");
 }
 
+// Generate a new templateEngine and manager.
 $templates = new League\Plates\Engine('Templates');
 $templateManager = TemplateManager::getInstance($templates);
 
+// Display page.
 if($_SERVER['REQUEST_METHOD'] === 'GET') {
+
+// ---------------- Input validation and sanitization --------------
+
     if (empty($_GET['id'])) {
         header("Location: Teacher.php");
         exit();
@@ -38,6 +45,8 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
     }
 
+// ---------------- Connect to database --------------
+
     $pdo = null;
     try {
         $pdo = new PDO('mysql:host=' . $_ENV["MYSQL_HOST"] .
@@ -58,6 +67,11 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
             null,
             "Could not connect to database.");
     }
+
+// ---------------- Display page --------------
+
+// Set referer. This variable is used in this this page to indicate from which page we originated.
+// This is used so that after editing student data we can return to the original page.
 
     if (isset($_SERVER["HTTP_REFERER"])) {
         $referer = end(explode("/", $_SERVER['HTTP_REFERER']));
@@ -82,6 +96,9 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
     $templateManager->renderEditStudent($student->pack(), $student->pack(), $referer);
 }
 elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+// ---------------- Input validation and sanitization --------------
+
     $id = "";
     $id_error = null;
     if (empty($_POST['id'])) {
@@ -204,6 +221,8 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
+// ----------- Connect to database  ----------
+
     $pdo = null;
     try {
         $pdo = new PDO('mysql:host=' . $_ENV["MYSQL_HOST"] .
@@ -224,6 +243,8 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
+// -------------- Edit student login -------------
+
     $studentModel = new StudentModel($pdo);
     $student = $studentModel->getStudentByMobilenumber($mobilenumber);
     if ($student !== null) {
@@ -241,6 +262,7 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($studentModel->updateStudentById($id, $name, $surname, $fathername, $grade, $mobilenumber, $birthday)) {
+//      Redirect to page that we originally came from if it is indicated.
         if ($referer !== null) {
             header("Location: " . $_POST['referer']);
         }

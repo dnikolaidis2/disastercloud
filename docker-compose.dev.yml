@@ -7,11 +7,20 @@ services:
       dockerfile: Dockerfile
     ports:
       - "80:80"
+    volumes:
+      - ./src:/var/www/html
     environment:
       MYSQL_HOST: mysql-db
       MYSQL_DATABASE: disastercloud
       MYSQL_USER: disastercloud
       MYSQL_PASSWORD: 9)=B=qcZ@/E:hMtR
+    command: 
+      - bash 
+      - -c
+      - |
+        chmod -R 777 *
+        composer install
+        exec apache2-foreground
     networks:
       - disastercloud
 

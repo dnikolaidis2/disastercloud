@@ -1,8 +1,6 @@
 
 src/composer.lock
 
-src/composer.json
-
 .idea/
 
 src/vendor/

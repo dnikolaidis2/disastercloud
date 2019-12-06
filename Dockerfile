@@ -7,5 +7,4 @@ RUN apt-get update && \
     	unzip && \
     docker-php-ext-install pdo_mysql
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN cd /var/www/html/ && \
-	composer require league/plates
+RUN cd /var/www/html && composer install

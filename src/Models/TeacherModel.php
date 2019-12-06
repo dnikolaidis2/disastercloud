@@ -3,44 +3,21 @@ include 'Utils/Random.php';
 
 class Teacher
 {
-    public $id;
-    public $name;
-    public $surname;
-    public $username;
-    public $password;
-    public $email;
+    public $ID;
+    public $NAME;
+    public $SURNAME;
+    public $USERNAME;
+    public $PASSWORD;
+    public $EMAIL;
 
-    public function __construct($id, $name, $surname, $username, $password, $email)
+    public function pack()
     {
-        $this->id = $id;
-        $this->name = $name;
-        $this->surname = $surname;
-        $this->username = $username;
-        $this->password = $password;
-        $this->email = $email;
-    }
-
-    public function __toString()
-    {
-        return "Teacher\n
-				ID: {$this->id}\n
-				NAME: {$this->name}\n
-				SURNAME: {$this->surname}\n
-				USERNAME: {$this->username}\n
-				PASSWORD: {$this->password}\n
-				EMAIL: {$this->email}\n";
-    }
-
-    public static function loadFromQuery($row)
-    {
-        $ret = new self($row["ID"],
-            $row["NAME"],
-            $row["SURNAME"],
-            $row["USERNAME"],
-            $row["PASSWORD"],
-            $row["EMAIL"]
-        );
-        return $ret;
+        return ["id" => $this->ID,
+            "name" => $this->NAME,
+            "surname" => $this->SURNAME,
+            "username" => $this->USERNAME,
+            "password" => $this->PASSWORD,
+            "email" => $this->EMAIL];
     }
 }
 
@@ -56,35 +33,34 @@ class TeacherModel
     public function getTeacherByUsername($username)
     {
         $stmt = $this->db->prepare('SELECT * FROM Teachers WHERE USERNAME = :username LIMIT 1');
-        if (!$stmt->bindParam(':username', $username, PDO::PARAM_STR)) {
-            return null;
-        }
-
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Teacher');
         if (!$stmt->execute()) {
             return null;
         } else {
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($result !== false) {
-                return Teacher::loadFromQuery($result);
+            $result = $stmt->fetch();
+            if ($result === false) {
+                return null;
             }
         }
+
+        return $result;
     }
 
     public function getTeacherByEmail($email)
     {
         $stmt = $this->db->prepare('SELECT * FROM Teachers WHERE EMAIL = :email LIMIT 1');
-        if (!$stmt->bindParam(':email', $email, PDO::PARAM_STR)) {
-            return null;
-        }
-
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Teacher');
         if (!$stmt->execute()) {
             return null;
         } else {
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($result !== false) {
-                return Teacher::loadFromQuery($result);
+            if ($result === false) {
+                return null;
             }
         }
+        return $result;
     }
 
     public function createTeacher($name, $surname, $username, $password, $email)

@@ -98,7 +98,7 @@ function login()
     $teacherModel = new TeacherModel($pdo);
     $teacher = $teacherModel->getTeacherByUsername($username);
     if (!empty($teacher)) {
-        if (password_verify($password, $teacher->password)) {
+        if (password_verify($password, $teacher->PASSWORD)) {
             global $session;
             $session->logedin = true;
             $session->username = $username;

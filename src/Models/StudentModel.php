@@ -1,6 +1,10 @@
 <?php
 include 'Utils/Random.php';
 
+/**
+ * Class Student.
+ * Wrapper for student data.
+ */
 class Student
 {
     public $ID;
@@ -11,6 +15,10 @@ class Student
     public $MOBILENUMBER;
     public $BIRTHDAY;
 
+    /**
+     * Pack student data to array for easier displaying to forms.
+     * @return array of student data.
+     */
     public function pack()
     {
         return ["id" => $this->ID,
@@ -24,15 +32,27 @@ class Student
 }
 
 
+/**
+ * Class StudentModel
+ * Wrapper for all interactions with database table Student.
+ */
 class StudentModel
 {
     protected $db;
 
+    /**
+     * StudentModel constructor.
+     * @param PDO $db PDO database connection.
+     */
     public function __construct(PDO $db)
     {
         $this->db = $db;
     }
 
+    /**
+     * Get array of students in Student table.
+     * @return array|null array of student classes if successful, null if not.
+     */
     public function getAllStudents()
     {
         $stmt = $this->db->prepare('SELECT * FROM Students');
@@ -40,6 +60,7 @@ class StudentModel
         if (!$stmt->execute()) {
             return null;
         } else {
+//          Fetch data and pack into Student class
             $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'Student');
             if ($result === false) {
                 return null;
@@ -49,10 +70,16 @@ class StudentModel
         return $result;
     }
 
+    /**
+     * Get a student using id.
+     * @param string $id of student to fetch.
+     * @return Student|null Student data represented by Student class if successful or null if not.
+     */
     public function getStudentById($id)
     {
         $stmt = $this->db->prepare('SELECT * FROM Students WHERE ID = :id LIMIT 1');
         $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+//      Fetch mode for automatic packing into student class
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Student');
         if (!$stmt->execute()) {
             return null;
@@ -66,10 +93,16 @@ class StudentModel
         return $result;
     }
 
+    /**
+     * Get a student using phone number.
+     * @param string $mobilenumber of student to fetch.
+     * @return Student|null Student data if successful or null if not.
+     */
     public function getStudentByMobilenumber($mobilenumber)
     {
         $stmt = $this->db->prepare('SELECT * FROM Students WHERE MOBILENUMBER = :mobilenumber LIMIT 1');
         $stmt->bindParam(':mobilenumber', $mobilenumber, PDO::PARAM_STR);
+//      Fetch mode for automatic packing into student class
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Student');
         if (!$stmt->execute()) {
             return null;
@@ -83,6 +116,17 @@ class StudentModel
         return $result;
     }
 
+    /**
+     * Search for a student by filed(s). Prepend and append '%' in fields for better search.
+     * @param string $name of student. Will be ignored if null.
+     * @param string $surname of student. Will be ignored if null.
+     * @param string $fathername of student. Will be ignored if null.
+     * @param string $grade of student. Will be ignored if null.
+     * @param string $mobilenumber of student. Will be ignored if null.
+     * @param string $birthday of student. Will be ignored if null.
+     * @return array|null array of student's returned from search query packed in Student class.
+     * null if an error occurred.
+     */
     public function searchForStudent($name = null,
                                      $surname = null,
                                      $fathername = null,
@@ -108,6 +152,7 @@ class StudentModel
         if (!$stmt->execute()) {
             return null;
         } else {
+//          Fetch data and pack into Student class
             $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'Student');
             if ($result === false) {
                 return null;
@@ -117,6 +162,17 @@ class StudentModel
         return $result;
     }
 
+    /**
+     * Update student with new data.
+     * @param string $id of student to update.
+     * @param string $name to update student with.
+     * @param string $surname to update student with.
+     * @param string $fathername to update student with.
+     * @param string $grade to update student with.
+     * @param string $mobilenumber to update student with.
+     * @param string $birthday to update student with.
+     * @return bool true if successful false if an error occurred.
+     */
     public function updateStudentById($id, $name, $surname, $fathername, $grade, $mobilenumber, $birthday)
     {
         $stmt = $this->db->prepare(
@@ -138,6 +194,16 @@ class StudentModel
         return $stmt->execute();
     }
 
+    /**
+     * Create a new student in student table.
+     * @param string $name of new student.
+     * @param string $surname of new student.
+     * @param string $fathername of new student.
+     * @param string $grade of new student.
+     * @param string $mobilenumber of new student.
+     * @param string $birthday of new student.
+     * @return bool true if successful false if an error occurred.
+     */
     public function createStudent($name, $surname, $fathername, $grade, $mobilenumber, $birthday)
     {
         $stmt = $this->db->prepare(
@@ -153,6 +219,11 @@ class StudentModel
         return $stmt->execute();
     }
 
+    /**
+     * Delete student from table.
+     * @param string $id of student to delete.
+     * @return bool true if successful false if an error occurred.
+     */
     public function deleteStudent($id)
     {
         $stmt = $this->db->prepare(
@@ -161,8 +232,14 @@ class StudentModel
         return $stmt->execute();
     }
 
+    /**
+     * Generate a new unique ID for a new student.
+     * @return string new unique ID.
+     */
     private function getNewStudentID()
     {
+//      Generate random ID and check if it exists already.
+//      If it does try again.
         while (true) {
             $id = generateRandomString();
 
